@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>לוח הקמת תערוכת פגמר · עיצוב סביבה טכנולוגית</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Suez+One&family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --wall:#F5F4EF; --ink:#161513; --marker:#FFD400; --rail:#B9B7AF;
+  --muted:#7C7A72; --alert:#D6402B; --done:#9C9A92; --card:#FFFFFF;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{
+  font-family:'Heebo',sans-serif;background:var(--wall);color:var(--ink);line-height:1.55;
+  background-image:linear-gradient(transparent 31px, rgba(22,21,19,.035) 32px);
+  background-size:100% 32px;
+}
+.wrap{max-width:840px;margin:0 auto;padding:0 20px 80px}
+button{font-family:'Heebo',sans-serif}
+
+header{padding:44px 0 8px}
+.eyebrow{display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.08em;background:var(--ink);color:var(--wall);padding:4px 12px;margin-bottom:14px}
+h1{font-family:'Suez One',serif;font-size:clamp(1.9rem,5.5vw,3.1rem);line-height:1.12;font-weight:400}
+h1 .hl{background:linear-gradient(transparent 58%, var(--marker) 58%)}
+.sub{color:var(--muted);font-size:.95rem;margin-top:10px}
+
+.plaques{display:flex;gap:12px;flex-wrap:wrap;margin:26px 0 6px}
+.plaque{background:var(--card);border:2px solid var(--ink);padding:10px 16px 12px;min-width:150px;box-shadow:4px 4px 0 var(--ink)}
+.plaque .num{font-family:'Suez One',serif;font-size:2rem;line-height:1}
+.plaque .lbl{font-size:.78rem;font-weight:700;color:var(--muted);margin-top:2px}
+.plaque.opening{background:var(--marker)}
+.plaque.opening .lbl{color:var(--ink)}
+
+.notes{margin:28px 0 8px;background:var(--card);border-right:6px solid var(--marker);padding:16px 18px;font-size:.92rem}
+.notes h2{font-size:.85rem;font-weight:900;letter-spacing:.05em;margin-bottom:8px}
+.notes p{margin-bottom:6px;color:#3d3c38}
+.notes p:last-child{margin-bottom:0}
+
+.filters{position:sticky;top:0;z-index:20;background:var(--wall);padding:14px 0 12px;margin-top:18px;border-bottom:2px solid var(--ink);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chip{font-size:.85rem;font-weight:500;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);padding:5px 14px;border-radius:999px;cursor:pointer;transition:background .15s,color .15s}
+.chip:hover{background:#efeee8}
+.chip.on{background:var(--ink);color:var(--wall);font-weight:700}
+.chip:focus-visible,.toggle input:focus-visible+span{outline:3px solid var(--marker);outline-offset:2px}
+.toggle{margin-inline-start:auto;display:flex;align-items:center;gap:7px;font-size:.83rem;cursor:pointer;user-select:none}
+.toggle input{position:absolute;opacity:0}
+.toggle span.sw{width:36px;height:20px;border:1.5px solid var(--ink);border-radius:999px;background:var(--card);position:relative;transition:background .15s;flex-shrink:0}
+.toggle span.sw::after{content:'';position:absolute;top:2px;right:2px;width:13px;height:13px;border-radius:50%;background:var(--ink);transition:transform .15s}
+.toggle input:checked+span.sw{background:var(--marker)}
+.toggle input:checked+span.sw::after{transform:translateX(-15px)}
+
+.timeline{position:relative;margin-top:26px;padding-inline-start:26px}
+.timeline::before{content:'';position:absolute;top:0;bottom:0;right:7px;width:2px;background:var(--rail)}
+.task{position:relative;margin-bottom:16px;background:var(--card);border:1.5px solid #DEDCD4;padding:14px 16px}
+.task::before{content:'';position:absolute;top:20px;right:-26px;width:12px;height:12px;border-radius:50%;background:var(--card);border:2.5px solid var(--ink)}
+.task.past{opacity:.55}
+.task.past::before{background:var(--done);border-color:var(--done)}
+.task.urgent{border-color:var(--ink);box-shadow:4px 4px 0 var(--marker)}
+.task.urgent::before{background:var(--marker)}
+.task.hidden{display:none}
+.task-top{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.date-badge{font-family:'Suez One',serif;font-size:1.05rem;background:var(--marker);padding:1px 10px 2px;white-space:nowrap}
+.task.past .date-badge{background:#E4E2DA;color:var(--muted)}
+.day-name{font-size:.8rem;color:var(--muted);font-weight:500}
+.badge{font-size:.72rem;font-weight:900;letter-spacing:.04em;padding:2px 9px;border-radius:999px}
+.badge.today{background:var(--alert);color:#fff}
+.badge.soon{background:var(--ink);color:var(--marker)}
+.badge.done-b{background:#E4E2DA;color:var(--muted)}
+.task h3{font-size:1.08rem;font-weight:700;margin-top:6px}
+.owner{display:inline-block;font-size:.8rem;font-weight:500;border:1px solid var(--rail);border-radius:999px;padding:1px 10px;margin-top:8px;background:#FAF9F5}
+.owner::before{content:'◦ ';color:var(--muted)}
+.task .note{font-size:.88rem;color:#4a4944;margin-top:10px;border-top:1px dashed #DEDCD4;padding-top:8px;white-space:pre-wrap}
+
+.today-line{position:relative;margin:6px 0 22px;height:0;border-top:2px solid var(--alert)}
+.today-line em{position:absolute;top:-11px;right:-20px;font-style:normal;font-size:.72rem;font-weight:900;background:var(--alert);color:#fff;padding:2px 10px;border-radius:999px}
+.month{position:relative;margin:30px 0 18px;font-family:'Suez One',serif;font-size:1rem;color:var(--muted)}
+.month::after{content:'';position:absolute;top:55%;right:70px;left:0;height:1px;background:var(--rail)}
+
+.empty,.loading{text-align:center;color:var(--muted);padding:40px 0;font-size:.95rem}
+.empty{display:none}
+.warn{display:none;margin-top:14px;background:#FBEAE6;border:1.5px solid var(--alert);color:#7c2a1c;padding:10px 14px;font-size:.85rem}
+
+footer{margin-top:44px;font-size:.78rem;color:var(--muted);text-align:center}
+footer a{color:var(--ink)}
+#srcState{display:block;margin-top:4px;font-size:.72rem}
+
+@media(max-width:560px){
+  .plaques{gap:8px}
+  .plaque{min-width:calc(50% - 6px);flex:1}
+  .toggle{margin-inline-start:0;width:100%;margin-top:4px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="eyebrow">תואר שני · עיצוב סביבה טכנולוגית · HIT</span>
+  <h1>לוח הקמת <span class="hl">תערוכת הגמר</span></h1>
+  <p class="sub">קיץ 2026 · הלוח מתעדכן אוטומטית לפי התאריך של היום</p>
+  <div class="plaques" id="plaques"></div>
+</header>
+
+<section class="notes">
+  <h2>הערות כלליות</h2>
+  <p><strong>מי שצובע:</strong> ניילונים לכיסוי אין במכון - צריך לרכוש. מבחינת בטיחות יש להשתמש בקרטון גלי ייעודי.</p>
+  <p><strong>שעות עבודה:</strong> כיתות נפתחות ב-7:00 בבוקר ונסגרות ב-22:00. עבודה עד חצות בימי חול או עד 17:00 בשישי - נדרש אישור מיוחד ועדכון מראש לאריק.</p>
+</section>
+
+<div class="warn" id="warn"></div>
+
+<nav class="filters" id="filters" aria-label="סינון משימות">
+  <button class="chip on" data-f="all">הכל</button>
+  <button class="chip" data-f="כולם">כולם</button>
+  <button class="chip" data-f="מירי">מירי</button>
+  <button class="chip" data-f="אישי">מי שצריך</button>
+  <button class="chip" data-f="אחר">גורמים אחרים</button>
+  <label class="toggle"><input type="checkbox" id="hidePast"><span class="sw"></span>הסתר משימות שעברו</label>
+</nav>
+
+<p class="loading" id="loading">טוען את הלוח…</p>
+<main class="timeline" id="timeline" style="display:none"></main>
+<p class="empty" id="empty">אין משימות שמתאימות לסינון הזה.</p>
+
+<footer>
+  ספר הפרויקט מוגש דיגיטלית לעדי · <a href="mailto:adifr@hit.ac.il">adifr@hit.ac.il</a> · עד 30.8.2026
+  <span id="srcState"></span>
+</footer>
+</div>
+
+<script>
+/* ============================================================
+   הגדרה יחידה שצריך למלא:
+   1. בגוגל שיטס: קובץ > שיתוף > פרסום באינטרנט
+   2. בחר את הגיליון של המשימות, פורמט: CSV (ערכים מופרדים בפסיקים)
+   3. הדבק את הקישור שמתקבל כאן:
+   ============================================================ */
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1Zf2QmMXYz4a3yeMLOjmrWsvQVzXSA7lFDTH7o59DLaw/gviz/tq?tqx=out:csv&gid=1084575200';
+
+/* נתוני גיבוי - מוצגים אם אין קישור לגיליון או שהטעינה נכשלה */
+const FALLBACK_TASKS=[
+ {title:'יום אחרון לבקשת צבעים מאריק',start:'2026-07-19',owner:'מי שצריך צבע',group:'אישי'},
+ {title:'לשלוח דימויים ליח"צ',start:'2026-07-20',owner:'כולם',group:'כולם'},
+ {title:'להעביר לגילת תוכנית חשמל',start:'2026-07-21',owner:'כולם',group:'כולם',note:'בתוכנית יש למלא איפה צריך כל דבר שהחשמלאי צריך לבצע לכם - התאמות, העברת חשמל ממקומות שונים וכו\'. שימו לב לימים שבהם הוא עובד איתנו.'},
+ {title:'למלא את טבלת דרישות החשמל',start:'2026-07-21',owner:'כולם',group:'כולם',note:'בטבלה יש למלא רק מה שאתם צריכים מבחינת ציוד חשמל (כבלים, מפצלים וכו\') + הדמיה ופרטים אישיים שלכם.'},
+ {title:'שליחת פוסטר לאישור יעל',start:'2026-07-22',owner:'כולם',group:'כולם',pre:'עד',note:'רק אחרי אישור המנחים שלכם.'},
+ {title:'שליחת קובץ הפוסטר למירי',start:'2026-07-24',owner:'כולם',group:'כולם',note:'אחרי אישור יעל ב-22.7.'},
+ {title:'קבלת חדר התערוכה',start:'2026-07-24',owner:'כולם',group:'כולם',note:'עדיף לסיים עבודות מלכלכות ביום זה, כי ביום ראשון - ממקים.'},
+ {title:'צביעת קיר',start:'2026-07-24',owner:'מי שצריך',group:'אישי',note:'אם נדרשים עוד / סוגי צבעים אחרים ממה שביקשתם - יש להעביר את הרשימה עד יום ראשון 19.7. אין צורך לסייד את כל החדר - מי שצריך לצבוע את החלק שלו, נא לעדכן בהקדם. מי שצובע מתחייב להחזיר את הקיר לבן ונקי בסיום התערוכה.'},
+ {title:'הקמת התערוכה',start:'2026-07-24',end:'2026-08-04',owner:'כולם',group:'כולם'},
+ {title:'הדפסת הפוסטר',start:'2026-07-26',owner:'מירי',group:'מירי',pre:'החל מ-'},
+ {title:'ניקיון',start:'2026-07-26',owner:'צוות המכון',group:'אחר',note:'בקובץ המקורי נכתב 26.6 (יום ראשון) - ככל הנראה הכוונה ל-26.7.'},
+ {title:'הדרכת גובה',start:'2026-07-27',owner:'דוד, שלומי, גילת ופליקס',group:'אחר',note:'בשעה 09:00.'},
+ {title:'כיבוד לתערוכה',start:'2026-07-30',owner:'צוות אחראי',group:'אחר',note:'לסגור את הנושא (כיבוד, יין וכו\' - מזמינים או עושים).'},
+ {title:'העלאת חומרים לאתר',start:'2026-07-31',end:'2026-08-04',owner:'מירי',group:'מירי'},
+ {title:'חשמלאי - יוסי ישורון',start:'2026-08-02',end:'2026-08-03',owner:'יוסי ישורון',group:'אחר',note:'ב-2-3.8 לא יבוצעו עבודות רועשות בין 08:00 ל-12:00. יבוצע לפי התוכנית שתישלח לגילת.'},
+ {title:'הגשה סופית',start:'2026-08-04',owner:'כולם',group:'כולם',note:'ההגשה תתקיים בכיתה 101 - מומלץ להכין מצגת.'},
+ {title:'פתיחת התערוכה',start:'2026-08-06',owner:'כולם',group:'כולם'},
+ {title:'ליווי והדרכה במתחם התערוכה',start:'2026-08-06',end:'2026-08-19',owner:'אריאל ושקד',group:'אחר',note:'להכין משמרות ולשריין אנשים שיגיעו.'},
+ {title:'פירוק התערוכה',start:'2026-08-20',owner:'כולם',group:'כולם',note:'את כל הציוד האור-קולי יש להחזיר עד השעה 14:00.'},
+ {title:'הגשת ספר פרויקט',start:'2026-08-30',owner:'כולם',group:'כולם',note:'הספר לא יהיה חלק מהתערוכה - יוגש עד יום א\' 30.8.2026 בצורה דיגיטלית לעדי (adifr@hit.ac.il). הספר יופץ לכל מרצי התוכנית ובמיוחד למרצי ועדת הגמר.'},
+];
+
+/* ================= csv parsing ================= */
+function parseCSV(text){
+  const rows=[]; let row=[], field='', inQ=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i];
+    if(inQ){
+      if(c==='"'){ if(text[i+1]==='"'){field+='"';i++;} else inQ=false; }
+      else field+=c;
+    }else{
+      if(c==='"') inQ=true;
+      else if(c===','){ row.push(field); field=''; }
+      else if(c==='\n'||c==='\r'){
+        if(c==='\r'&&text[i+1]==='\n')i++;
+        row.push(field); field='';
+        if(row.some(f=>f.trim()!=='')) rows.push(row);
+        row=[];
+      }
+      else field+=c;
+    }
+  }
+  if(field!==''||row.length){ row.push(field); if(row.some(f=>f.trim()!=='')) rows.push(row); }
+  return rows;
+}
+function rowsToTasks(rows){
+  if(!rows.length) return [];
+  const head=rows[0].map(h=>h.trim().toLowerCase());
+  const idx=n=>head.indexOf(n);
+  const iT=idx('title'),iS=idx('start'),iE=idx('end'),iO=idx('owner'),iG=idx('group'),iP=idx('pre'),iN=idx('note');
+  if(iT<0||iS<0) throw new Error('חסרות עמודות title/start בגיליון');
+  const norm=s=>{ /* מקבל גם 24/07/2026 וגם 2026-07-24 */
+    s=(s||'').trim(); if(!s) return '';
+    let m=s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+    if(m) return m[1]+'-'+m[2].padStart(2,'0')+'-'+m[3].padStart(2,'0');
+    m=s.match(/^(\d{1,2})[\/.](\d{1,2})[\/.](\d{4})$/);
+    if(m) return m[3]+'-'+m[2].padStart(2,'0')+'-'+m[1].padStart(2,'0');
+    return '';
+  };
+  return rows.slice(1).map(r=>({
+    title:(r[iT]||'').trim(),
+    start:norm(r[iS]),
+    end:norm(iE>=0?r[iE]:'')||undefined,
+    owner:(iO>=0?r[iO]:'').trim()||'—',
+    group:(iG>=0?r[iG]:'').trim()||'אחר',
+    pre:(iP>=0?r[iP]:'').trim()||undefined,
+    note:(iN>=0?r[iN]:'').trim()||undefined,
+  })).filter(t=>t.title&&t.start);
+}
+
+/* ================= render ================= */
+const DAYS=['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
+const MONTHS={6:'יוני',7:'יולי',8:'אוגוסט',9:'ספטמבר'};
+const today=new Date(); today.setHours(0,0,0,0);
+const pd=s=>{const[a,b,c]=s.split('-').map(Number);return new Date(a,b-1,c)};
+const fmt=s=>{const d=pd(s);return d.getDate()+'.'+(d.getMonth()+1)};
+const dayDiff=(a,b)=>Math.round((a-b)/864e5);
+const esc=s=>(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function renderPlaques(){
+  const anchors=[
+    {lbl:'ימים להגשה הסופית (4.8)',date:pd('2026-08-04')},
+    {lbl:'ימים לפתיחת התערוכה (6.8)',date:pd('2026-08-06'),cls:'opening'},
+    {lbl:'ימים להגשת ספר הפרויקט (30.8)',date:pd('2026-08-30')},
+  ];
+  document.getElementById('plaques').innerHTML=anchors.map(t=>{
+    const n=dayDiff(t.date,today);
+    const num=n>0?n:(n===0?'היום':'✓');
+    return `<div class="plaque ${t.cls||''}"><div class="num">${num}</div><div class="lbl">${t.lbl}</div></div>`;
+  }).join('');
+}
+
+function render(tasks){
+  const tl=document.getElementById('timeline');
+  const sorted=[...tasks].sort((a,b)=>pd(a.start)-pd(b.start));
+  let html='',lastMonth=0,todayPlaced=false;
+  for(const t of sorted){
+    const sd=pd(t.start), ed=pd(t.end||t.start);
+    if(!todayPlaced && sd>=today){
+      html+=`<div class="today-line"><em>היום · ${today.getDate()}.${today.getMonth()+1}</em></div>`;
+      todayPlaced=true;
+    }
+    const m=sd.getMonth()+1;
+    if(m!==lastMonth){ html+=`<div class="month">${MONTHS[m]||m} ${sd.getFullYear()}</div>`; lastMonth=m; }
+    const past=ed<today, active=sd<=today&&ed>=today;
+    const soon=!past&&!active&&dayDiff(sd,today)<=4;
+    const cls=past?'past':(active||soon?'urgent':'');
+    let badge='';
+    if(past)badge='<span class="badge done-b">עבר</span>';
+    else if(active)badge='<span class="badge today">מתקיים עכשיו</span>';
+    else if(dayDiff(sd,today)===0)badge='<span class="badge today">היום</span>';
+    else if(soon)badge=`<span class="badge soon">בעוד ${dayDiff(sd,today)} ימים</span>`;
+    const dateTxt=(t.pre?esc(t.pre)+' ':'')+fmt(t.start)+(t.end?' – '+fmt(t.end):'');
+    const dayTxt=t.end?`ימי ${DAYS[sd.getDay()]}–${DAYS[ed.getDay()]}`:`יום ${DAYS[sd.getDay()]}`;
+    html+=`<article class="task ${cls}" data-g="${esc(t.group)}" data-past="${past}">
+      <div class="task-top"><span class="date-badge">${dateTxt}</span><span class="day-name">${dayTxt}</span>${badge}</div>
+      <h3>${esc(t.title)}</h3>
+      <span class="owner">${esc(t.owner)}</span>
+      ${t.note?`<p class="note">${esc(t.note)}</p>`:''}
+    </article>`;
+  }
+  if(!todayPlaced)html+=`<div class="today-line"><em>היום</em></div>`;
+  tl.innerHTML=html;
+  applyFilters();
+}
+
+/* ================= filters ================= */
+let filter='all';
+function applyFilters(){
+  const hidePast=document.getElementById('hidePast').checked;
+  let visible=0;
+  document.querySelectorAll('.task').forEach(el=>{
+    const ok=(filter==='all'||el.dataset.g===filter)&&(!hidePast||el.dataset.past!=='true');
+    el.classList.toggle('hidden',!ok);
+    if(ok)visible++;
+  });
+  document.getElementById('empty').style.display=visible?'none':'block';
+}
+document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{
+  document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));
+  c.classList.add('on');filter=c.dataset.f;applyFilters();
+}));
+document.getElementById('hidePast').addEventListener('change',applyFilters);
+
+/* ================= init ================= */
+(async()=>{
+  renderPlaques();
+  let tasks=FALLBACK_TASKS, src='נתונים מובנים';
+  if(SHEET_CSV_URL){
+    try{
+      const res=await fetch(SHEET_CSV_URL+(SHEET_CSV_URL.includes('?')?'&':'?')+'t='+Date.now(),{cache:'no-store'});
+      if(!res.ok) throw new Error('HTTP '+res.status);
+      const parsed=rowsToTasks(parseCSV(await res.text()));
+      if(parsed.length){ tasks=parsed; src='מסונכרן מגוגל שיטס'; }
+      else throw new Error('הגיליון ריק או בפורמט לא תקין');
+    }catch(e){
+      const w=document.getElementById('warn');
+      w.textContent='לא הצלחנו לטעון מהגיליון ('+e.message+') - מוצגת גרסת הגיבוי המובנית.';
+      w.style.display='block';
+    }
+  }
+  document.getElementById('loading').style.display='none';
+  document.getElementById('timeline').style.display='block';
+  document.getElementById('srcState').textContent=src;
+  render(tasks);
+})();
+</script>
+</body>
+</html>
