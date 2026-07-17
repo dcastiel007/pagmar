@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>בקשות ציוד - תערוכת בוגרים</title>
+<style>
+  :root{
+    --ink:#1b2a4a;
+    --paper:#f7f7f3;
+    --card:#ffffff;
+    --line:#e3e2da;
+    --green:#1b8a5a;
+    --green-soft:#e8f5ee;
+    --yellow:#fff3bf;
+    --yellow-line:#e8d77a;
+    --muted:#6b7280;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    padding:16px 14px calc(24px + env(safe-area-inset-bottom));
+    -webkit-text-size-adjust:100%;
+  }
+  header{margin:8px 2px 18px;}
+  header h1{font-size:22px;font-weight:700;letter-spacing:-0.3px;}
+  header p{font-size:13px;color:var(--muted);margin-top:4px;}
+
+  /* --- סיכום כללי --- */
+  .totals{
+    background:var(--yellow);
+    border:1px solid var(--yellow-line);
+    border-radius:14px;
+    padding:14px;
+    margin-bottom:20px;
+  }
+  .totals h2{font-size:15px;font-weight:700;margin-bottom:10px;display:flex;justify-content:space-between;align-items:baseline;}
+  .totals h2 small{font-size:12px;font-weight:400;color:#7a6a1f;}
+  .totals-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px 14px;}
+  .totals-grid .trow{display:flex;justify-content:space-between;font-size:14px;padding:3px 0;border-bottom:1px dashed rgba(0,0,0,.12);}
+  .totals-grid .trow:nth-last-child(-n+2){border-bottom:none;}
+  .trow b{font-variant-numeric:tabular-nums;}
+
+  /* --- כרטיסי אנשים --- */
+  .person{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px;
+    margin-bottom:12px;
+    box-shadow:0 1px 2px rgba(27,42,74,.05);
+  }
+  .person-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .person-head h3{font-size:16px;font-weight:700;}
+  .badge{
+    background:var(--ink);color:#fff;
+    font-size:12px;font-weight:600;
+    border-radius:999px;padding:3px 10px;
+    font-variant-numeric:tabular-nums;
+    white-space:nowrap;
+  }
+  .items{display:flex;flex-wrap:wrap;gap:6px;}
+  .pill{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--green-soft);
+    border:1px solid #cde8da;
+    color:#14663f;
+    border-radius:999px;
+    padding:5px 11px;
+    font-size:13.5px;
+    line-height:1;
+  }
+  .pill b{
+    background:var(--green);color:#fff;
+    border-radius:999px;
+    min-width:20px;height:20px;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:12px;font-variant-numeric:tabular-nums;
+  }
+  footer{margin-top:18px;font-size:12px;color:var(--muted);text-align:center;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>בקשות תוספות ציוד</h1>
+  <p>תערוכת בוגרים - 8 מציגים - נכון ל-17.7.2026</p>
+</header>
+
+<section class="totals">
+  <h2>סה"כ תוספות <small>52 פריטים</small></h2>
+  <div class="totals-grid">
+    <div class="trow"><span>אוזניות</span><b>10</b></div>
+    <div class="trow"><span>טאבלט</span><b>10</b></div>
+    <div class="trow"><span>מחשב פיסי</span><b>8</b></div>
+    <div class="trow"><span>סטרימר</span><b>6</b></div>
+    <div class="trow"><span>מסך פיסי</span><b>4</b></div>
+    <div class="trow"><span>מסך 32 אינץ'</span><b>4</b></div>
+    <div class="trow"><span>מסך 55 אינץ'</span><b>3</b></div>
+    <div class="trow"><span>רמקולים</span><b>3</b></div>
+    <div class="trow"><span>מסך סמסונג 32 אינץ'</span><b>2</b></div>
+    <div class="trow"><span>מסך 49 אינץ'</span><b>1</b></div>
+    <div class="trow"><span>איימק 21.5</span><b>1</b></div>
+  </div>
+</section>
+
+<section class="person">
+  <div class="person-head"><h3>דייויד קסטיאל</h3><span class="badge">4 פריטים</span></div>
+  <div class="items">
+    <span class="pill">סטרימר <b>1</b></span>
+    <span class="pill">טאבלט <b>1</b></span>
+    <span class="pill">מסך 49 אינץ' <b>1</b></span>
+    <span class="pill">מסך סמסונג 32 אינץ' <b>1</b></span>
+  </div>
+</section>
+
+<section class="person">
+  <div class="person-head"><h3>יולה זוברציקי</h3><span class="badge">פריט 1</span></div>
+  <div class="items">
+    <span class="pill">טאבלט <b>1</b></span>
+  </div>
+</section>
+
+<section class="person">
+  <div class="person-head"><h3>שקד הראל</h3><span class="badge">5 פריטים</span></div>
+  <div class="items">
+    <span class="pill">אוזניות <b>2</b></span>
+    <span class="pill">טאבלט <b>1</b></span>
+    <span class="pill">סטרימר <b>1</b></span>
+    <span class="pill">מסך 32 אינץ' <b>1</b></span>
+  </div>
+</section>
+
+<section class="person">
+  <div class="person-head"><h3>רעות ופליקס</h3><span class="badge">11 פריטים</span></div>
+  <div class="items">
+    <span class="pill">מחשב פיסי <b>3</b></span>
+    <span class="pill">מסך פיסי <b>3</b></span>
+    <span class="pill">רמקולים <b>2</b></span>
+    <span class="pill">אוזניות <b>1</b></span>
+    <span class="pill">טאבלט <b>1</b></span>
+    <span class="pill">סטרימר <b>1</b></span>
+  </div>
+</section>
+
+<section class="person">
+  <div class="person-head"><h3>גילת אלי</h3><span class="badge">7 פריטים</span></div>
+  <div class="items">
+    <span class="pill">טאבלט <b>2</b></span>
+    <span class="pill">מחשב פיסי <b>1</b></span>
+    <span class="pill">רמקולים <b>1</b></span>
+    <span class="pill">סטרימר <b>1</b></span>
+    <span class="pill">מסך 55 אינץ' <b>1</b></span>
+    <span class="pill">מסך סמסונג 32 אינץ' <b>1</b></span>
+  </div>
+</section>
+
+<section class="person">
+  <div class="person-head"><h3>רבקה פרידלנד כהן</h3><span class="badge">9 פריטים</span></div>
+  <div class="items">
+    <span class="pill">אוזניות <b>4</b></span>
+    <span class="pill">מחשב פיסי <b>2</b></span>
+    <span class="pill">סטרימר <b>1</b></span>
+    <span class="pill">מסך פיסי <b>1</b></span>
+    <span class="pill">מסך 55 אינץ' <b>1</b></span>
+  </div>
+</section>
+
+<section class="person">
+  <div class="person-head"><h3>נדב בן חיים</h3><span class="badge">4 פריטים</span></div>
+  <div class="items">
+    <span class="pill">מחשב פיסי <b>1</b></span>
+    <span class="pill">אוזניות <b>1</b></span>
+    <span class="pill">טאבלט <b>1</b></span>
+    <span class="pill">מסך 32 אינץ' <b>1</b></span>
+  </div>
+</section>
+
+<section class="person">
+  <div class="person-head"><h3>מירי וייס</h3><span class="badge">11 פריטים</span></div>
+  <div class="items">
+    <span class="pill">טאבלט <b>3</b></span>
+    <span class="pill">אוזניות <b>2</b></span>
+    <span class="pill">מסך 32 אינץ' <b>2</b></span>
+    <span class="pill">מחשב פיסי <b>1</b></span>
+    <span class="pill">סטרימר <b>1</b></span>
+    <span class="pill">מסך 55 אינץ' <b>1</b></span>
+    <span class="pill">איימק 21.5 <b>1</b></span>
+  </div>
+</section>
+
+<footer>מקור: גיליון בקשות תוספות - שורות 30-37</footer>
+
+</body>
+</html>
