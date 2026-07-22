@@ -15,6 +15,7 @@
     --yellow:#fff3bf;
     --yellow-line:#e8d77a;
     --muted:#6b7280;
+    --blue-soft:#eef3fb;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   body{
@@ -28,7 +29,6 @@
   header h1{font-size:22px;font-weight:700;letter-spacing:-0.3px;}
   header p{font-size:13px;color:var(--muted);margin-top:4px;}
 
-  /* --- סיכום כללי --- */
   .totals{
     background:var(--yellow);
     border:1px solid var(--yellow-line);
@@ -43,7 +43,6 @@
   .totals-grid .trow:nth-last-child(-n+2){border-bottom:none;}
   .trow b{font-variant-numeric:tabular-nums;}
 
-  /* --- כרטיסי אנשים --- */
   .person{
     background:var(--card);
     border:1px solid var(--line);
@@ -79,7 +78,42 @@
     display:inline-flex;align-items:center;justify-content:center;
     font-size:12px;font-variant-numeric:tabular-nums;
   }
-  footer{margin-top:18px;font-size:12px;color:var(--muted);text-align:center;}
+
+  /* --- הגדרות מסכים --- */
+  .screens{margin-top:12px;border-top:1px solid var(--line);padding-top:10px;}
+  .screens h4{font-size:13px;color:var(--muted);font-weight:600;margin-bottom:8px;}
+  .screen-row{
+    background:var(--blue-soft);
+    border:1px solid #dbe4f2;
+    border-radius:10px;
+    padding:10px;
+    margin-bottom:8px;
+  }
+  .screen-row .sname{font-size:14px;font-weight:700;margin-bottom:8px;}
+  .choice-line{display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap;}
+  .choice-line .clabel{font-size:12.5px;color:var(--muted);min-width:44px;}
+  .seg{display:inline-flex;background:#fff;border:1px solid #c9d4e6;border-radius:999px;overflow:hidden;}
+  .seg button{
+    appearance:none;border:none;background:transparent;
+    font-family:inherit;font-size:13.5px;color:var(--ink);
+    padding:7px 14px;min-height:34px;
+    cursor:pointer;
+  }
+  .seg button.on{background:var(--ink);color:#fff;font-weight:600;}
+  .seg button:focus-visible{outline:2px solid var(--green);outline-offset:-2px;}
+
+  .send-line{margin-top:10px;display:flex;gap:8px;}
+  .send-btn{
+    appearance:none;border:none;border-radius:10px;
+    background:var(--green);color:#fff;
+    font-family:inherit;font-size:14px;font-weight:600;
+    padding:10px 16px;min-height:40px;cursor:pointer;
+    flex:1;
+  }
+  .send-btn:active{opacity:.85;}
+  .hint{font-size:11.5px;color:var(--muted);margin-top:6px;}
+
+  footer{margin-top:18px;font-size:12px;color:var(--muted);text-align:center;line-height:1.6;}
 </style>
 </head>
 <body>
@@ -87,6 +121,7 @@
 <header>
   <h1>בקשות תוספות ציוד</h1>
   <p>תערוכת בוגרים - 8 מציגים - נכון ל-17.7.2026</p>
+  <p>מי שביקש מסך - נא לסמן למטה איך הוא מוצב ובאיזה כיוון, וללחוץ "שלח בחירות"</p>
 </header>
 
 <section class="totals">
@@ -101,99 +136,157 @@
     <div class="trow"><span>מסך 55 אינץ'</span><b>3</b></div>
     <div class="trow"><span>רמקולים</span><b>3</b></div>
     <div class="trow"><span>מסך סמסונג 32 אינץ'</span><b>2</b></div>
+    <div class="trow"><span>מסך 40 אינץ</span><b>2</b></div>
     <div class="trow"><span>מסך 49 אינץ'</span><b>1</b></div>
     <div class="trow"><span>איימק 21.5</span><b>1</b></div>
-    <div class="trow"><span>מקרן</span><b>1</b></div>
   </div>
 </section>
 
-<section class="person">
-  <div class="person-head"><h3>דייויד קסטיאל</h3><span class="badge">4 פריטים</span></div>
-  <div class="items">
-    <span class="pill">סטרימר <b>1</b></span>
-    <span class="pill">טאבלט <b>1</b></span>
-    <span class="pill">מסך 49 אינץ' <b>1</b></span>
-    <span class="pill">מסך סמסונג 32 אינץ' <b>1</b></span>
-  </div>
-</section>
+<div id="people"></div>
 
-<section class="person">
-  <div class="person-head"><h3>יולה זוברציקי</h3><span class="badge">פריט 1</span></div>
-  <div class="items">
-    <span class="pill">טאבלט <b>1</b></span>
-  </div>
-</section>
+<footer>
+  הבחירות נשמרות במכשיר שלך בלבד - לחיצה על "שלח בחירות" שולחת אותן לרכז.<br>
+  מקור: גיליון בקשות תוספות - שורות 30-37
+</footer>
 
-<section class="person">
-  <div class="person-head"><h3>שקד הראל</h3><span class="badge">5 פריטים</span></div>
-  <div class="items">
-    <span class="pill">אוזניות <b>2</b></span>
-    <span class="pill">טאבלט <b>1</b></span>
-    <span class="pill">סטרימר <b>1</b></span>
-    <span class="pill">מסך 32 אינץ' <b>1</b></span>
-  </div>
-</section>
+<script>
+const PEOPLE = [
+  { name:"דייויד קסטיאל", items:[["סטרימר",1],["טאבלט",1],["מסך 40 אינץ'",1],["מסך סמסונג 32 אינץ'",1]] },
+  { name:"יולה זוברציקי", items:[["טאבלט",1]] },
+  { name:"שקד הראל", items:[["אוזניות",2],["טאבלט",1],["סטרימר",1],["מסך 32 אינץ'",1]] },
+  { name:"רעות ופליקס", items:[["מחשב פיסי",3],["מסך פיסי",3],["רמקולים",2],["אוזניות",1],["טאבלט",1],["סטרימר",1]] },
+  { name:"גילת אלי", items:[["טאבלט",2],["מחשב פיסי",1],["רמקולים",1],["סטרימר",1],["מסך 55 אינץ'",1],["מסך סמסונג 32 אינץ'",1]] },
+  { name:"רבקה פרידלנד כהן", items:[["אוזניות",4],["מחשב פיסי",2],["סטרימר",1],["מסך פיסי",1],["מסך 49 אינץ'",1]] },
+  { name:"נדב בן חיים", items:[["מחשב פיסי",1],["אוזניות",1],["טאבלט",1],["מסך 32 אינץ'",1]] },
+  { name:"מירי וייס", items:[["טאבלט",3],["אוזניות",2],["מסך 32 אינץ'",2],["מחשב פיסי",1],["סטרימר",1],["מסך 55 אינץ'",1],["איימק 21.5",1]] },
+];
 
-<section class="person">
-  <div class="person-head"><h3>רעות ופליקס</h3><span class="badge">11 פריטים</span></div>
-  <div class="items">
-    <span class="pill">מחשב פיסי <b>3</b></span>
-    <span class="pill">מסך פיסי <b>3</b></span>
-    <span class="pill">רמקולים <b>2</b></span>
-    <span class="pill">אוזניות <b>1</b></span>
-    <span class="pill">טאבלט <b>1</b></span>
-    <span class="pill">סטרימר <b>1</b></span>
-  </div>
-</section>
+const isScreen = n => n.startsWith("מסך");
+const STORE_KEY = "pagmar-screen-setup-v1";
+let state = {};
+try { state = JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch(e) { state = {}; }
+const save = () => { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch(e){} };
 
-<section class="person">
-  <div class="person-head"><h3>גילת אלי</h3><span class="badge">7 פריטים</span></div>
-  <div class="items">
-    <span class="pill">טאבלט <b>2</b></span>
-    <span class="pill">מחשב פיסי <b>1</b></span>
-    <span class="pill">רמקולים <b>1</b></span>
-    <span class="pill">סטרימר <b>1</b></span>
-    <span class="pill">מסך 55 אינץ' <b>1</b></span>
-    <span class="pill">מסך סמסונג 32 אינץ' <b>1</b></span>
-    <span class="pill">מקרן <b>1</b></span>   
-  </div>
-</section>
+const MOUNT = [["wall","קיר"],["stand","חצובה"]];
+const ORIENT = [["landscape","שוכב (לרוחב)"],["portrait","עומד (לאורך)"]];
 
-<section class="person">
-  <div class="person-head"><h3>רבקה פרידלנד כהן</h3><span class="badge">9 פריטים</span></div>
-  <div class="items">
-    <span class="pill">אוזניות <b>4</b></span>
-    <span class="pill">מחשב פיסי <b>2</b></span>
-    <span class="pill">סטרימר <b>1</b></span>
-    <span class="pill">מסך פיסי <b>1</b></span>
-    <span class="pill">מסך 55 אינץ' <b>1</b></span>
-  </div>
-</section>
+function seg(key, field, options){
+  const wrap = document.createElement("div");
+  wrap.className = "seg";
+  options.forEach(([val,label])=>{
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = label;
+    if((state[key]||{})[field] === val) b.classList.add("on");
+    b.onclick = ()=>{
+      state[key] = state[key] || {};
+      state[key][field] = val;
+      save();
+      [...wrap.children].forEach(c=>c.classList.remove("on"));
+      b.classList.add("on");
+    };
+    wrap.appendChild(b);
+  });
+  return wrap;
+}
 
-<section class="person">
-  <div class="person-head"><h3>נדב בן חיים</h3><span class="badge">4 פריטים</span></div>
-  <div class="items">
-    <span class="pill">מחשב פיסי <b>1</b></span>
-    <span class="pill">אוזניות <b>1</b></span>
-    <span class="pill">טאבלט <b>1</b></span>
-    <span class="pill">מסך 32 אינץ' <b>1</b></span>
-  </div>
-</section>
+function summaryFor(p){
+  const lines = [];
+  p.items.filter(([n])=>isScreen(n)).forEach(([n,q])=>{
+    for(let i=1;i<=q;i++){
+      const key = `${p.name}|${n}|${i}`;
+      const s = state[key]||{};
+      const mount = s.mount ? (s.mount==="wall"?"קיר":"חצובה") : "לא נבחר";
+      const orient = s.orient ? (s.orient==="landscape"?"שוכב":"עומד") : "לא נבחר";
+      lines.push(`${n}${q>1?" #"+i:""}: ${mount}, ${orient}`);
+    }
+  });
+  return `הגדרות מסכים - ${p.name}:\n` + lines.join("\n");
+}
 
-<section class="person">
-  <div class="person-head"><h3>מירי וייס</h3><span class="badge">11 פריטים</span></div>
-  <div class="items">
-    <span class="pill">טאבלט <b>3</b></span>
-    <span class="pill">אוזניות <b>2</b></span>
-    <span class="pill">מסך 32 אינץ' <b>2</b></span>
-    <span class="pill">מחשב פיסי <b>1</b></span>
-    <span class="pill">סטרימר <b>1</b></span>
-    <span class="pill">מסך 55 אינץ' <b>1</b></span>
-    <span class="pill">איימק 21.5 <b>1</b></span>
-  </div>
-</section>
+const root = document.getElementById("people");
+PEOPLE.forEach(p=>{
+  const totalQty = p.items.reduce((s,[,q])=>s+q,0);
+  const card = document.createElement("section");
+  card.className = "person";
 
-<footer>מקור: גיליון בקשות תוספות - שורות 30-37</footer>
+  const head = document.createElement("div");
+  head.className = "person-head";
+  head.innerHTML = `<h3>${p.name}</h3><span class="badge">${totalQty===1?"פריט 1":totalQty+" פריטים"}</span>`;
+  card.appendChild(head);
+
+  const items = document.createElement("div");
+  items.className = "items";
+  p.items.forEach(([n,q])=>{
+    const s = document.createElement("span");
+    s.className = "pill";
+    s.innerHTML = `${n} <b>${q}</b>`;
+    items.appendChild(s);
+  });
+  card.appendChild(items);
+
+  const screens = p.items.filter(([n])=>isScreen(n));
+  if(screens.length){
+    const sec = document.createElement("div");
+    sec.className = "screens";
+    sec.innerHTML = `<h4>הגדרות הצבה למסכים</h4>`;
+    screens.forEach(([n,q])=>{
+      for(let i=1;i<=q;i++){
+        const key = `${p.name}|${n}|${i}`;
+        const row = document.createElement("div");
+        row.className = "screen-row";
+        const title = document.createElement("div");
+        title.className = "sname";
+        title.textContent = q>1 ? `${n} - יחידה ${i}` : n;
+        row.appendChild(title);
+
+        const l1 = document.createElement("div");
+        l1.className = "choice-line";
+        l1.innerHTML = `<span class="clabel">הצבה:</span>`;
+        l1.appendChild(seg(key,"mount",MOUNT));
+        row.appendChild(l1);
+
+        const l2 = document.createElement("div");
+        l2.className = "choice-line";
+        l2.innerHTML = `<span class="clabel">כיוון:</span>`;
+        l2.appendChild(seg(key,"orient",ORIENT));
+        row.appendChild(l2);
+
+        sec.appendChild(row);
+      }
+    });
+
+    const sendLine = document.createElement("div");
+    sendLine.className = "send-line";
+    const btn = document.createElement("button");
+    btn.className = "send-btn";
+    btn.type = "button";
+    btn.textContent = "שלח בחירות";
+    btn.onclick = async ()=>{
+      const text = summaryFor(p);
+      if(navigator.share){
+        try { await navigator.share({ text }); return; } catch(e){ if(e.name==="AbortError") return; }
+      }
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.textContent = "הועתק - הדבק בוואטסאפ";
+        setTimeout(()=>btn.textContent="שלח בחירות", 2500);
+      } catch(e){ alert(text); }
+    };
+    sendLine.appendChild(btn);
+    sec.appendChild(sendLine);
+
+    const hint = document.createElement("div");
+    hint.className = "hint";
+    hint.textContent = "הבחירה נשמרת במכשיר הזה. השליחה פותחת את שיתוף המערכת (וואטסאפ / מייל).";
+    sec.appendChild(hint);
+
+    card.appendChild(sec);
+  }
+
+  root.appendChild(card);
+});
+</script>
 
 </body>
 </html>
